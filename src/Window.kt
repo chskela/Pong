@@ -1,11 +1,14 @@
 import java.awt.Color
 import java.awt.Graphics2D
-import java.awt.event.KeyEvent
 import javax.swing.JFrame
 
 object Window : JFrame(), Runnable {
 
     private val keyListener = KL()
+    private var g2: Graphics2D
+    var player: Rect
+    var ai: Rect
+    var ball: Rect
 
     init {
         setSize(Constants.SCREEN_WIDTH, Constants.SCREEN_HEIGHT)
@@ -13,19 +16,43 @@ object Window : JFrame(), Runnable {
         isResizable = true
         isVisible = true
         defaultCloseOperation = EXIT_ON_CLOSE
-        addKeyListener(keyListener)
-    }
 
-    private val g2 = graphics as Graphics2D
+        addKeyListener(keyListener)
+
+        g2 = graphics as Graphics2D
+
+        player = Rect(
+            Constants.HZ_PADDING,
+            40, Constants.PADDLE_WIDTH,
+            Constants.PADDLE_HEIGHT,
+            Constants.PADDLE_COLOR
+        )
+
+        ai = Rect(
+            Constants.SCREEN_WIDTH - Constants.PADDLE_WIDTH - Constants.HZ_PADDING,
+            40,
+            Constants.PADDLE_WIDTH,
+            Constants.PADDLE_HEIGHT,
+            Constants.PADDLE_COLOR
+        )
+
+        ball = Rect(
+            Constants.SCREEN_WIDTH / 2,
+            Constants.SCREEN_HEIGHT / 2,
+            Constants.BALL_DIAMETER,
+            Constants.BALL_DIAMETER,
+            Constants.BALL_COLOR
+        )
+    }
 
     private fun update(dt: Double) {
 //        println("${1 / dt} fps")
         g2.color = Color.BLACK
         g2.fillRect(0, 0, Constants.SCREEN_WIDTH, Constants.SCREEN_HEIGHT)
 
-        if (keyListener.isPressed(KeyEvent.VK_UP)) {
-            println("UP")
-        }
+        player.draw(g2)
+        ai.draw(g2)
+        ball.draw(g2)
     }
 
     override fun run() {
