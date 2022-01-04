@@ -1,6 +1,6 @@
 fun main() {
     println("Pong!!!")
-    Window.run()
-    val thread = Thread()
+
+    val thread = Thread(Window)
     thread.start()
 }
