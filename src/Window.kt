@@ -5,7 +5,7 @@ import javax.swing.JFrame
 object Window : JFrame(), Runnable {
 
     private val keyListener = KL()
-    private val g2: Graphics2D
+
     private val player = Rect(
         Constants.HZ_PADDING,
         40.0, Constants.PADDLE_WIDTH,
@@ -29,7 +29,6 @@ object Window : JFrame(), Runnable {
 
     private val playerController = PlayerController(player, keyListener)
     private val aiController = AIController(ai, ball)
-
     private val ballController = BallController(ball, player, ai)
 
     init {
@@ -42,21 +41,20 @@ object Window : JFrame(), Runnable {
         addKeyListener(keyListener)
         Constants.TOOLBAR_HEIGHT = insets.top
         Constants.INSETS_HEIGHT = insets.bottom
-
-        g2 = graphics as Graphics2D
     }
 
     private fun update(dt: Double) {
 //        println("${1 / dt} fps")
         val dbImage = createImage(width, height)
         val dbg = dbImage.graphics as Graphics2D
-
+        val g2 = graphics as Graphics2D
         draw(dbg)
         g2.drawImage(dbImage, 0, 0, this)
 
         ballController.update(dt)
-        playerController.update(dt)
         aiController.update(dt)
+        playerController.update(dt)
+
     }
 
     private fun draw(graphics2D: Graphics2D) {

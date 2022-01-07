@@ -5,7 +5,7 @@ class KL : KeyListener {
     private val keyPressed = BooleanArray(128)
 
     override fun keyTyped(e: KeyEvent?) {
-        TODO("Not yet implemented")
+
     }
 
     override fun keyPressed(e: KeyEvent?) {

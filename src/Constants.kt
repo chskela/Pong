@@ -18,6 +18,8 @@ object Constants {
 
     // Ball
     const val BALL_DIAMETER = 10.0
+    const val BALL_SPEED = 200.0
+    const val MAX_ANGLE = 45.0
     val BALL_COLOR: Color = Color.WHITE
 
     // Padding
