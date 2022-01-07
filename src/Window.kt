@@ -28,7 +28,9 @@ object Window : JFrame(), Runnable {
     )
 
     private val playerController = PlayerController(player, keyListener)
-    private val ballConroller = Ball(ball, player, ai)
+    private val aiController = AIController(ai, ball)
+
+    private val ballController = BallController(ball, player, ai)
 
     init {
         setSize(Constants.SCREEN_WIDTH, Constants.SCREEN_HEIGHT)
@@ -50,10 +52,11 @@ object Window : JFrame(), Runnable {
         val dbg = dbImage.graphics as Graphics2D
 
         draw(dbg)
-
         g2.drawImage(dbImage, 0, 0, this)
-        ballConroller.update(dt)
+
+        ballController.update(dt)
         playerController.update(dt)
+        aiController.update(dt)
     }
 
     private fun draw(graphics2D: Graphics2D) {

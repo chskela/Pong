@@ -1,4 +1,4 @@
-class Ball(private val ball: Rect, private val leftPaddle: Rect, private val rightPaddle: Rect) {
+class BallController(private val ball: Rect, private val leftPaddle: Rect, private val rightPaddle: Rect) {
     private var vy = 150.0
     private var vx = -100.0
 
