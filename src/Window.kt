@@ -5,10 +5,30 @@ import javax.swing.JFrame
 object Window : JFrame(), Runnable {
 
     private val keyListener = KL()
-    private var g2: Graphics2D
-    var player: Rect
-    var ai: Rect
-    var ball: Rect
+    private val g2: Graphics2D
+    private val player = Rect(
+        Constants.HZ_PADDING,
+        40.0, Constants.PADDLE_WIDTH,
+        Constants.PADDLE_HEIGHT,
+        Constants.PADDLE_COLOR
+    )
+    private val ai = Rect(
+        Constants.SCREEN_WIDTH - Constants.PADDLE_WIDTH - Constants.HZ_PADDING,
+        40.0,
+        Constants.PADDLE_WIDTH,
+        Constants.PADDLE_HEIGHT,
+        Constants.PADDLE_COLOR
+    )
+    private val ball = Rect(
+        Constants.SCREEN_WIDTH.toDouble() / 2,
+        Constants.SCREEN_HEIGHT.toDouble() / 2,
+        Constants.BALL_DIAMETER,
+        Constants.BALL_DIAMETER,
+        Constants.BALL_COLOR
+    )
+
+    private val playerController = PlayerController(player, keyListener)
+    private val ballConroller = Ball(ball, player, ai)
 
     init {
         setSize(Constants.SCREEN_WIDTH, Constants.SCREEN_HEIGHT)
@@ -18,41 +38,31 @@ object Window : JFrame(), Runnable {
         defaultCloseOperation = EXIT_ON_CLOSE
 
         addKeyListener(keyListener)
+        Constants.TOOLBAR_HEIGHT = insets.top
+        Constants.INSETS_HEIGHT = insets.bottom
 
         g2 = graphics as Graphics2D
-
-        player = Rect(
-            Constants.HZ_PADDING,
-            40, Constants.PADDLE_WIDTH,
-            Constants.PADDLE_HEIGHT,
-            Constants.PADDLE_COLOR
-        )
-
-        ai = Rect(
-            Constants.SCREEN_WIDTH - Constants.PADDLE_WIDTH - Constants.HZ_PADDING,
-            40,
-            Constants.PADDLE_WIDTH,
-            Constants.PADDLE_HEIGHT,
-            Constants.PADDLE_COLOR
-        )
-
-        ball = Rect(
-            Constants.SCREEN_WIDTH / 2,
-            Constants.SCREEN_HEIGHT / 2,
-            Constants.BALL_DIAMETER,
-            Constants.BALL_DIAMETER,
-            Constants.BALL_COLOR
-        )
     }
 
     private fun update(dt: Double) {
 //        println("${1 / dt} fps")
-        g2.color = Color.BLACK
-        g2.fillRect(0, 0, Constants.SCREEN_WIDTH, Constants.SCREEN_HEIGHT)
+        val dbImage = createImage(width, height)
+        val dbg = dbImage.graphics as Graphics2D
 
-        player.draw(g2)
-        ai.draw(g2)
-        ball.draw(g2)
+        draw(dbg)
+
+        g2.drawImage(dbImage, 0, 0, this)
+        ballConroller.update(dt)
+        playerController.update(dt)
+    }
+
+    private fun draw(graphics2D: Graphics2D) {
+        graphics2D.color = Color.BLACK
+        graphics2D.fillRect(0, 0, Constants.SCREEN_WIDTH, Constants.SCREEN_HEIGHT)
+
+        player.draw(graphics2D)
+        ai.draw(graphics2D)
+        ball.draw(graphics2D)
     }
 
     override fun run() {
@@ -63,12 +73,6 @@ object Window : JFrame(), Runnable {
             val time = Time.getTime()
             val deltaTime = time - lastTimeFrame
             lastTimeFrame = time
-
-            try {
-                Thread.sleep(30)
-            } catch (e: Exception) {
-                println(e)
-            }
 
             update(deltaTime)
         }

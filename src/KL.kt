@@ -20,5 +20,5 @@ class KL : KeyListener {
         }
     }
 
-    fun isPressed(key: Int): Boolean = keyPressed[key]
+    fun isKeyPressed(key: Int): Boolean = keyPressed[key]
 }
