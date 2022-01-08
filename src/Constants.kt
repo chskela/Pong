@@ -32,6 +32,9 @@ object Constants {
     const val TEXT_Y_POS = 70.0
     const val TEXT_X_POS = 70.0
     const val TEXT_SIZE = 40
+    const val PONG = "Pong"
+    const val START_GAME = "Start Game"
+    const val EXIT_GAME = "Exit"
 
     // Game
     const val WIN_SCORE = 11

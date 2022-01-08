@@ -4,9 +4,7 @@ import java.awt.event.KeyListener
 class KL : KeyListener {
     private val keyPressed = BooleanArray(128)
 
-    override fun keyTyped(e: KeyEvent?) {
-
-    }
+    override fun keyTyped(e: KeyEvent?){}
 
     override fun keyPressed(e: KeyEvent?) {
         if (e != null) {

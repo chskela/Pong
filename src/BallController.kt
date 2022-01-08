@@ -8,10 +8,11 @@ class BallController(
     private val leftPaddle: Rect,
     private val rightPaddle: Rect,
     private val leftScoreText: Text,
-    private val rightScoreText: Text
+    private val rightScoreText: Text,
+    private val setState: () -> Unit
 ) {
     private var vy = 20.0
-    private var vx = -180.0
+    private var vx = -160.0
 
     fun update(dt: Double) {
         val dx = vx * dt
@@ -61,6 +62,9 @@ class BallController(
             setStartPosition()
             if ((rightScoreText.text.toIntOrNull() ?: 0) >= Constants.WIN_SCORE) {
                 println("Win AI")
+                rightScoreText.text = "0"
+                leftScoreText.text = "0"
+                setState()
             }
         }
 
@@ -69,6 +73,9 @@ class BallController(
             setStartPosition()
             if ((leftScoreText.text.toIntOrNull() ?: 0) >= Constants.WIN_SCORE) {
                 println("Win player")
+                rightScoreText.text = "0"
+                leftScoreText.text = "0"
+                setState()
             }
         }
     }
