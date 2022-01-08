@@ -3,7 +3,13 @@ import kotlin.math.cos
 import kotlin.math.sign
 import kotlin.math.sin
 
-class BallController(private val ball: Rect, private val leftPaddle: Rect, private val rightPaddle: Rect) {
+class BallController(
+    private val ball: Rect,
+    private val leftPaddle: Rect,
+    private val rightPaddle: Rect,
+    private val leftScoreText: Text,
+    private val rightScoreText: Text
+) {
     private var vy = 20.0
     private var vx = -180.0
 
@@ -49,6 +55,22 @@ class BallController(private val ball: Rect, private val leftPaddle: Rect, priva
 
         ball.x += dx
         ball.y += dy
+
+        if (ball.x + ball.width < leftPaddle.x) {
+            rightScoreText.text = (rightScoreText.text.toIntOrNull() ?: 0).inc().toString()
+            setStartPosition()
+            if ((rightScoreText.text.toIntOrNull() ?: 0) >= Constants.WIN_SCORE) {
+                println("Win AI")
+            }
+        }
+
+        if (ball.x > rightPaddle.x + rightPaddle.width) {
+            leftScoreText.text = (leftScoreText.text.toIntOrNull() ?: 0).inc().toString()
+            setStartPosition()
+            if ((leftScoreText.text.toIntOrNull() ?: 0) >= Constants.WIN_SCORE) {
+                println("Win player")
+            }
+        }
     }
 
     private fun calculateVelocity(paddle: Rect): Pair<Double, Double> {
@@ -67,5 +89,12 @@ class BallController(private val ball: Rect, private val leftPaddle: Rect, priva
     private fun getRangeX(paddle: Rect) = paddle.x..paddle.x + paddle.width
 
     private fun getRangeY(paddle: Rect, ball: Rect) = paddle.y - ball.height..paddle.y + paddle.height - ball.height
+
+    private fun setStartPosition() {
+        ball.x = (Constants.SCREEN_WIDTH / 2).toDouble()
+        ball.y = (Constants.SCREEN_HEIGHT / 2).toDouble()
+        vy = 20.0
+        vx = -180.0
+    }
 
 }

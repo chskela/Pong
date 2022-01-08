@@ -7,8 +7,8 @@ object Constants {
     const val SCREEN_HEIGHT = 600
     const val SCREEN_TITLE = "Pong"
 
-    var TOOLBAR_HEIGHT by Delegates.notNull<Int>()
-    var INSETS_HEIGHT by Delegates.notNull<Int>()
+    var TOOLBAR_HEIGHT by Delegates.notNull<Double>()
+    var INSETS_HEIGHT by Delegates.notNull<Double>()
 
     // Paddle
     const val PADDLE_WIDTH = 15.0
@@ -24,4 +24,15 @@ object Constants {
 
     // Padding
     const val HZ_PADDING = 40.0
+
+    // Font
+    const val FONT = "Roboto"
+
+    // Text
+    const val TEXT_Y_POS = 70.0
+    const val TEXT_X_POS = 70.0
+    const val TEXT_SIZE = 40
+
+    // Game
+    const val WIN_SCORE = 11
 }
